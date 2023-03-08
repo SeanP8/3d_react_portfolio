@@ -3,9 +3,13 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
 import CanvasLoader from "../Loader";
+import { Model } from "../Scene";
+// import {Model} from './desktop_pc/Scene.jsx'
 
 const Computers = ({ isMobile }) => {
-  const computer = useGLTF("./desktop_pc/scene.gltf");
+  // const computer = useGLTF("./desktop_pc/Scene.js");
+  // const comp = <Scene/>
+  
 
   return (
     <mesh>
@@ -20,7 +24,7 @@ const Computers = ({ isMobile }) => {
       />
       <pointLight intensity={1} />
       <primitive
-        object={computer.scene}
+        object={Model}
         scale={isMobile ? 0.7 : 0.75}
         position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
         rotation={[-0.01, -0.2, -0.1]}
@@ -58,17 +62,38 @@ const ComputersCanvas = () => {
       frameloop='demand'
       shadows
       dpr={[1, 2]}
-      camera={{ position: [20, 3, 5], fov: 25 }}
+      camera={{ position: [50, 13, 15], fov: 15 }}
       gl={{ preserveDrawingBuffer: true }}
     >
+      <ambientLight intensity={.5}/>
+      <hemisphereLight intensity={.91} groundColor='black' />
+      <spotLight
+        position={[20, 10, 10]}
+        angle={0.12}
+        penumbra={1}
+        intensity={.81}
+        castShadow
+  
+        shadow-mapSize={1024}
+      />
+      <pointLight
+        position={[10,0,0]}
+      intensity={.5}
+      />
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
           enableZoom={false}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
-        />
-        <Computers isMobile={isMobile} />
-      </Suspense>
+          autoRotate={true}
+          />
+          <mesh 
+            position={[0, -4.25, 1]}
+          >
+
+        <Model />
+          </mesh>
+          </Suspense>
 
       <Preload all />
     </Canvas>
