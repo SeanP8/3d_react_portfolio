@@ -1,9 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-// template_uub9xnc
-// service_8fk2pfk
-// -JDuMLJjm5BvLXR4k
+
 import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
@@ -35,16 +33,16 @@ const Contact = () => {
 
     emailjs
       .send(
-        'service_8fk2pfk',
-        'template_uub9xnc',
+        process.env.EMAILJS_SERVICE,
+        process.env.EMAILJS_TEMPLATE,
         {
           from_name: form.name,
           to_name: "Sean",
           from_email: form.email,
-          to_email: "seanpitfield@gmail.com",
+          to_email: process.env.MY_EMAIL,
           message: form.message,
         },
-        '-JDuMLJjm5BvLXR4k'
+        process.env.EMAILJS_PUBLIC_KEY
       )
       .then(
         () => {
